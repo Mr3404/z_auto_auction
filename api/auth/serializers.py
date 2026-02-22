@@ -2,15 +2,26 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
+from ..auction.serializers import VehicleSerializer, BidSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "password"]
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data["username"],
-            password=make_password(validated_data["password"])
-        )
-        return user
+    
+    
+class UserProfileSerializer(serializers.ModelSerializer):
+    my_vehicles = serializers.SerializerMethodField()
+    my_bids = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name", "is_staff", "is_active", "my_vehicles", "my_bids"]
+        
+    def get_my_vehicles(self, obj):
+        vehicles = obj.vehicle_user.all()
+        return VehicleSerializer(vehicles, many=True).data
+    
+    def get_my_bids(self, obj):
+        bids = obj.bidded_user.all()
+        return BidSerializer(bids, many=True).data

@@ -27,5 +27,10 @@ class VehicleAdmin(admin.ModelAdmin):
     inlines = [
         VehicleImageAdminInlines, VehicleVideoAdminInlines
     ]
-    list_display = ["vin", "year"]
-
+    list_display = ["vin", "year", "status"]
+    list_editable = ["status"]
+    
+    
+@admin.register(Bid)
+class VehicleBidAdmin(admin.ModelAdmin):
+    list_display = ["amount"]

@@ -35,6 +35,13 @@ class Vehicle(models.Model):
         ("electric", "Electric"),
         ("hybrid", "Hybrid") 
     ]
+    
+    STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("active", "Active"),
+        ("sold", "Sold")
+    ]
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vehicle_user")
     model = models.ForeignKey(VehicleModel, on_delete=models.CASCADE, related_name="vehicle_model")
     year = models.IntegerField(default=2000)
@@ -45,7 +52,7 @@ class Vehicle(models.Model):
     fuel_type = models.CharField(choices=FUEL_CHOICES, max_length=50)
     color = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=False)
+    status = models.CharField(choices=STATUS_CHOICES, default="pending", max_length=50)
     starting_price = models.DecimalField(max_digits=12, decimal_places=2)
     auction_start_date = models.DateTimeField(auto_now_add=False)
     auction_end_date = models.DateTimeField(auto_now_add=False)
@@ -66,3 +73,17 @@ class VehicleImage(models.Model):
 class VehicleVideo(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="vehicle_video")
     video = models.FileField(upload_to="vehicle_videos/")
+
+
+class Bid(models.Model):
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name="vehicle_bid")
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bidded_user")
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    
+    class Meta:
+        verbose_name_plural = "Vehicle Bids"
+    
+    def __str__(self):
+        return self.vehicle.vin

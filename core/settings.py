@@ -72,6 +72,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+ORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {

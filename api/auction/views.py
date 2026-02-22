@@ -32,7 +32,7 @@ class VehicleListView(APIView):
 
     def get(self, request):
         try:
-            vehicles = Vehicle.objects.all()
+            vehicles = Vehicle.objects.filter(status="active")
             serializer = VehicleSerializer(vehicles, many=True)
             return Response(serializer.data, status.HTTP_200_OK)
         except:
