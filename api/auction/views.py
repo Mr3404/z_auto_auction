@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
+import datetime
+from django.utils import timezone
 from auction.models import *
 from .serializers import *
 
@@ -31,8 +33,17 @@ class VehicleModelView(APIView):
 class VehicleListView(APIView):
 
     def get(self, request):
+        
         try:
-            vehicles = Vehicle.objects.filter(status="active")
+            vehicle = Vehicle.objects.filter(status="active", auction_end_date__gte=timezone.now())
+            vehicles = vehicle.order_by("-auction_start_date")
+            if request.query_params.get("brand"):
+                vehicles = vehicles.filter(model__brand__id=request.query_params.get("brand"))
+            if request.query_params.get("model"):
+                vehicles = vehicles.filter(model__id=request.query_params.get("model"))
+            if request.query_params.get("year_range"):
+                year_range = request.query_params.get("year_range").split("-")
+                vehicles = vehicles.filter(year__gte=int(year_range[0]), year__lte=int(year_range[1]))
             serializer = VehicleSerializer(vehicles, many=True)
             return Response(serializer.data, status.HTTP_200_OK)
         except:

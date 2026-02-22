@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
-from ..auction.serializers import VehicleSerializer, BidSerializer
+from ..auction.serializers import VehicleSerializer, BidSerializer, UserVehicleSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         
     def get_my_vehicles(self, obj):
         vehicles = obj.vehicle_user.all()
-        return VehicleSerializer(vehicles, many=True).data
+        return UserVehicleSerializer(vehicles, many=True).data
     
     def get_my_bids(self, obj):
         bids = obj.bidded_user.all()

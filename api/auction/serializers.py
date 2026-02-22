@@ -22,6 +22,25 @@ class VehicleModelSerializer(serializers.ModelSerializer):
         fields = ["id", "brand", "model"]
 
 
+class UserVehicleSerializer(serializers.ModelSerializer):
+    model = VehicleModelSerializer()
+    image = serializers.SerializerMethodField()
+    current_highest_bid = serializers.SerializerMethodField()
+    class Meta:
+        model = Vehicle
+        fields = ["id", "model", "year", "starting_price", "current_highest_bid", "auction_start_date", "auction_end_date", "image"]
+
+    def get_image(self, obj):
+        image = obj.vehicle_image.first()
+        if image:
+            return image.image.url
+        return None
+    
+    def get_current_highest_bid(self, obj):
+        highest_bid = obj.vehicle_bid.order_by('-amount').first()
+        return highest_bid.amount if highest_bid and highest_bid.amount > obj.starting_price else obj.starting_price
+
+
 class VehicleSerializer(serializers.ModelSerializer):
     model = VehicleModelSerializer()
     image = serializers.SerializerMethodField()
@@ -39,6 +58,7 @@ class VehicleSerializer(serializers.ModelSerializer):
     def get_current_highest_bid(self, obj):
         highest_bid = obj.vehicle_bid.order_by('-amount').first()
         return highest_bid.amount if highest_bid and highest_bid.amount > obj.starting_price else obj.starting_price
+    
     
 
 class VehicleDetailSerializer(serializers.ModelSerializer):
