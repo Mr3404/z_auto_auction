@@ -1,0 +1,4 @@
+- [ ] dockerize app
+- [ ] add redis cache
+- [ ] add celery background tasks
+- [ ] create notification
