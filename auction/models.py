@@ -45,7 +45,7 @@ class Vehicle(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vehicle_user")
     model = models.ForeignKey(VehicleModel, on_delete=models.CASCADE, related_name="vehicle_model")
     year = models.IntegerField(default=2000)
-    vin = models.CharField(max_length=100, unique=True)
+    vin = models.CharField(max_length=17, unique=True)
     kilometers = models.PositiveIntegerField()
     engine_size = models.CharField(max_length=20)
     transmission = models.CharField(choices=TRANSMISSION_CHOICES, max_length=50)
