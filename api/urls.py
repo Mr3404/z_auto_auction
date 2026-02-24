@@ -15,4 +15,8 @@ urlpatterns = [
     path('vehicle-models/', VehicleModelView.as_view()),
     path('vehicle-list/', VehicleListView.as_view()),
     path('vehicle/<int:pk>/', VehicleView.as_view()),
+    path('add-vehicle/', VehicleView.as_view()),
+    
+    path('add-bid/', AddBidView.as_view()),
+    path('bid-list/', BidListView.as_view()),
 ]

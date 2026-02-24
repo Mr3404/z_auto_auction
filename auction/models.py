@@ -54,10 +54,10 @@ class Vehicle(models.Model):
     description = models.TextField(blank=True, null=True)
     status = models.CharField(choices=STATUS_CHOICES, default="pending", max_length=50)
     starting_price = models.DecimalField(max_digits=12, decimal_places=2)
+    current_price = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     auction_start_date = models.DateTimeField(auto_now_add=False)
     auction_end_date = models.DateTimeField(auto_now_add=False)
     
-
     class Meta:
         verbose_name_plural = "Vehicles"
 
