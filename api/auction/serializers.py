@@ -4,10 +4,16 @@ from auction.models import VehicleBrand, VehicleModel, Vehicle, VehicleImage, Ve
 
 
 class BidSerializer(serializers.ModelSerializer):
+    vehicle = serializers.SerializerMethodField()
+    user = serializers.StringRelatedField()
     class Meta:
         model = Bid
-        fields = "__all__"
-
+        fields = ["id", "vehicle", "user", "amount", "timestamp"]
+        
+    def get_vehicle(self, obj):
+        vehicle = obj.vehicle
+        print(vehicle)
+        return VehicleSerializer(vehicle).data
 
 class VehicleBrandSerializer(serializers.ModelSerializer):
     class Meta:

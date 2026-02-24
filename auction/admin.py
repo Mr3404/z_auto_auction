@@ -34,3 +34,4 @@ class VehicleAdmin(admin.ModelAdmin):
 @admin.register(Bid)
 class VehicleBidAdmin(admin.ModelAdmin):
     list_display = ["amount"]
+    

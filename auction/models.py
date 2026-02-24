@@ -86,4 +86,4 @@ class Bid(models.Model):
         verbose_name_plural = "Vehicle Bids"
     
     def __str__(self):
-        return self.vehicle.vin
+        return self.vehicle.model.model

@@ -6,6 +6,7 @@ import datetime
 from django.utils import timezone
 from auction.models import *
 from .serializers import *
+from .services import *
 
 
 class VehicleBrandView(APIView):
