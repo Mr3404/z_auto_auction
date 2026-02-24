@@ -119,3 +119,24 @@ class VehicleView(APIView):
             return Response(serializer.data, status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request, pk):
+        try:
+            vehicle = Vehicle.objects.get(id=pk, user=request.user)
+        except:
+            return Response(status.HTTP_404_NOT_FOUND)
+        data = request.data        
+        serializer = AddVehicleSerializer(vehicle, data=data, partial=True, many=False)
+        if serializer.is_valid():
+            serializer.save()
+            image = request.FILES.getlist("photo")
+            if image:
+                VehicleImage.objects.filter(vehicle_id=pk).delete()
+                for img in image:
+                    VehicleImage.objects.create(vehicle_id=pk, image=img)
+            video = request.FILES.get("video")
+            if video:
+                VehicleVideo.objects.filter(vehicle_id=pk).delete()
+                VehicleVideo.objects.create(vehicle_id=pk, video=video)
+            return Response(serializer.data, status.HTTP_200_OK)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
