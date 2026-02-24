@@ -3,6 +3,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .auth.views import *
 from .auction.views import *
+from .reminder.views import *
 
 
 urlpatterns = [
@@ -20,4 +21,6 @@ urlpatterns = [
     
     path('add-bid/', AddBidView.as_view()),
     path('bid-list/', BidListView.as_view()),
+    
+    path('add-reminder/', AddReminderView.as_view()),
 ]
