@@ -8,6 +8,7 @@ from .reminder.views import *
 
 urlpatterns = [
     path('register/', ResgisterUserView.as_view()),
+    path('verify-otp/', VerifyOTPView.as_view()),
     path('login/', TokenObtainPairView.as_view()),
     path('refresh-token/', TokenRefreshView.as_view()),
     path('user-profile/', UserProfileView.as_view()),
