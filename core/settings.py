@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'auction',
     'reminder',
+    'import_export',
 ]
 
 REST_FRAMEWORK = {

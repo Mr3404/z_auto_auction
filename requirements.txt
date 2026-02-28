@@ -6,3 +6,5 @@ pillow
 python-dotenv
 django-cors-headers
 psycopg2-binary
+django-import-export
+openpyxl

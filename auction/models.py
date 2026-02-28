@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class VehicleBrand(models.Model):
     brand = models.CharField(max_length=50, unique=True)
+    logo = models.ImageField(upload_to="vehicle_brands/", blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "Vehicle Brands"
