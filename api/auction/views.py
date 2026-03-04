@@ -91,7 +91,16 @@ class VehicleListView(APIView):
             return Response(serializer.data, status.HTTP_200_OK)
         except:
             return Response(status.HTTP_404_NOT_FOUND)
-        
+
+
+class VehicleListComingSoonView(APIView):
+    def get(self, request):
+        try:
+            vehicle = Vehicle.objects.filter(status="active", auction_end_date__gte=timezone.now(), auction_start_date__lt=timezone.now())
+            serializer = VehicleSerializer(vehicle, many=True)
+            return Response(serializer.data, status.HTTP_200_OK)
+        except:
+            return Response(status.HTTP_404_NOT_FOUND)
         
 class VehicleView(APIView):
     permission_classes = [IsAuthenticated]
