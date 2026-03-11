@@ -39,8 +39,7 @@ class Vehicle(models.Model):
     
     STATUS_CHOICES = [
         ("pending", "Pending"),
-        ("started", "Started"),
-        ("ended", "Ended"),
+        ("active", "Active"),
         ("sold", "Sold")
     ]
     
