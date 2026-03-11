@@ -6,6 +6,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
+from django.db.models import Q
 from auction.models import *
 from .serializers import *
 
@@ -73,7 +74,7 @@ class VehicleListView(APIView):
     def get(self, request):
         
         try:
-            vehicle = Vehicle.objects.filter(status="active", auction_end_date__gte=timezone.now())
+            vehicle = Vehicle.objects.filter(status="started",)
             vehicles = vehicle.order_by("-auction_start_date")
             if request.query_params.get("brand"):
                 vehicles = vehicles.filter(model__brand__id=request.query_params.get("brand"))
@@ -96,7 +97,7 @@ class VehicleListView(APIView):
 class VehicleListComingSoonView(APIView):
     def get(self, request):
         try:
-            vehicle = Vehicle.objects.filter(status="active", auction_end_date__gte=timezone.now(), auction_start_date__lt=timezone.now())
+            vehicle = Vehicle.objects.filter(status="pending")
             serializer = VehicleSerializer(vehicle, many=True)
             return Response(serializer.data, status.HTTP_200_OK)
         except:

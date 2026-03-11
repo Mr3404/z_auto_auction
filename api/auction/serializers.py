@@ -36,7 +36,7 @@ class BidSerializer(serializers.ModelSerializer):
 class VehicleBrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = VehicleBrand
-        fields = "__all__"
+        fields = ["id", "brand"]
 
 
 class VehicleModelSerializer(serializers.ModelSerializer):
